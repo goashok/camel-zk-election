@@ -53,7 +53,6 @@ public class RouteElectionHandler implements ElectionHandler , CamelContextAware
     @Override
     public void shutdown() throws Exception{
         this.notify();
-        camelContext.stopRoute(masterRoute);
     }
 
     @Override
