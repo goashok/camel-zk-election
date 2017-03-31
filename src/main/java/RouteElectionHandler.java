@@ -17,9 +17,9 @@ public class RouteElectionHandler implements ElectionHandler , CamelContextAware
     private String masterRoute;
     private CamelContext camelContext;
     private ApplicationContext applicationContext;
-    private ApplicationLeaderElectionSupport appSupport;
+    private AppLeaderElectionSupport appSupport;
 
-    public RouteElectionHandler(String name, String masterRoute, ApplicationLeaderElectionSupport appSupport) {
+    public RouteElectionHandler(String name, String masterRoute, AppLeaderElectionSupport appSupport) {
         this.name = name;
         this.masterRoute = masterRoute;
         this.appSupport = appSupport;
