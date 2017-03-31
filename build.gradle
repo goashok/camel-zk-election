@@ -1,0 +1,29 @@
+group 'org.ashamnani'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.apache.curator', name: 'curator-framework', version: '2.12.0'
+    compile group: 'org.apache.curator', name: 'curator-recipes', version: '2.12.0'
+    compile group: 'org.apache.curator', name: 'curator-client', version: '2.12.0'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.2'
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-core
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.2'
+    // https://mvnrepository.com/artifact/org.apache.camel/camel-core
+    compile group: 'org.apache.camel', name: 'camel-core', version: '2.18.3'
+    // https://mvnrepository.com/artifact/org.apache.camel/camel-spring
+    compile group: 'org.apache.camel', name: 'camel-spring', version: '2.18.3'
+
+
+
+
+}

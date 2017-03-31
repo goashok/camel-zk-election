@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/spring-context.xsd
+    ">
+
+    <!--<context:property-placeholder location="test.properties" ignore-unresolvable="false" />-->
+
+    <bean id="curatorClient"  class="org.apache.curator.framework.CuratorFrameworkFactory" factory-method="newClient" init-method="start">
+        <constructor-arg index="0" value="localhost:2181"></constructor-arg>
+        <constructor-arg index="1" value="60000"></constructor-arg>
+        <constructor-arg index="2" value="60000"></constructor-arg>
+        <constructor-arg index="3">
+            <bean id="backOffPolicy" class="org.apache.curator.retry.ExponentialBackoffRetry">
+                <constructor-arg index="0" value="1000"></constructor-arg>
+                <constructor-arg index="1" value="3"></constructor-arg>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="leaderElector" name="leaderElector" class="LeaderElector" init-method="start">
+        <constructor-arg index="0" ref="curatorClient"></constructor-arg>
+        <constructor-arg index="1" value="/examples/leader"></constructor-arg>
+        <constructor-arg index="2">
+            <bean class="RouteElectionHandler">
+                <constructor-arg index="0" value="${clientID}"></constructor-arg>
+                <constructor-arg index="1" value="leaderRoute" />
+                <constructor-arg index="2" >
+                    <bean class="ExampleApplicationLeaderElectionSupport" />
+                </constructor-arg>
+            </bean>
+        </constructor-arg>
+
+    </bean>
+
+
+    <camelContext xmlns="http://camel.apache.org/schema/spring">
+
+    <route id="leaderRoute" autoStartup="false">
+        <from uri="timer://foo?fixedRate=true&amp;period=1s"/>
+        <to uri="log:com.mycompany.order?level=INFO"/>
+    </route>
+
+</camelContext>
+
+
+</beans>
