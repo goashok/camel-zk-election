@@ -6,8 +6,10 @@
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.listen.Listenable;
+import org.apache.curator.framework.recipes.leader.CancelLeadershipException;
 import org.apache.curator.framework.recipes.leader.LeaderSelectorListenerAdapter;
 import org.apache.curator.framework.recipes.leader.LeaderSelector;
+import org.apache.curator.framework.state.ConnectionState;
 import org.apache.curator.framework.state.ConnectionStateListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +69,12 @@ public class LeaderElector extends LeaderSelectorListenerAdapter implements Clos
         }
     }
 
+    @Override
+    public void stateChanged(CuratorFramework client, ConnectionState newState)
+    {
+        LOGGER.info("Status Changed. New Status: " + newState);
+        super.stateChanged(client, newState);
+    }
     public boolean isMaster() {
         return isMaster;
     }

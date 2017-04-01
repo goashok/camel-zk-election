@@ -1,5 +1,3 @@
-import org.apache.camel.CamelContext;
-import org.apache.camel.impl.DefaultCamelContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -12,6 +10,7 @@ public class CamelLeaderRouteTest {
         ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(
                 "test-leader-context.xml");
         appContext.start();
+        appContext.getBean("leaderElector", LeaderElector.class).start();
         Object lock = new Object();
         synchronized (lock) {
             lock.wait();

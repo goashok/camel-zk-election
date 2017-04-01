@@ -17,9 +17,9 @@ public class RouteElectionHandler implements ElectionHandler , CamelContextAware
     private String masterRoute;
     private CamelContext camelContext;
     private ApplicationContext applicationContext;
-    private AppLeaderElectionSupport appSupport;
+    private AppElectionSupport appSupport;
 
-    public RouteElectionHandler(String name, String masterRoute, AppLeaderElectionSupport appSupport) {
+    public RouteElectionHandler(String name, String masterRoute, AppElectionSupport appSupport) {
         this.name = name;
         this.masterRoute = masterRoute;
         this.appSupport = appSupport;
@@ -31,7 +31,6 @@ public class RouteElectionHandler implements ElectionHandler , CamelContextAware
 
         synchronized (this) {
             try {
-
                 appSupport.onElectionChange(camelContext, applicationContext, ElectionStatus.MASTER);
                 camelContext.startRoute(masterRoute);
                 this.wait();
@@ -39,7 +38,7 @@ public class RouteElectionHandler implements ElectionHandler , CamelContextAware
                 LOGGER.error("Error handlig election", e);
                 Thread.sleep(15000);  //Avoid race to leader election, We already saw race condition if you relinquish
                 //control and regain control constantly.
-                throw e; //this could be Interrupted
+                throw e; //this could be InterruptedException which we dont want to swallow
             }finally {
                 LOGGER.warn("Stopping route " + masterRoute);
                 appSupport.onElectionChange(camelContext, applicationContext, ElectionStatus.SLAVE);

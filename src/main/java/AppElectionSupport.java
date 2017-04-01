@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContext;
  * required by the application when it becomes a leader or loses its status.
  *
  */
-public interface AppLeaderElectionSupport {
+public interface AppElectionSupport {
 
     public void onElectionChange(CamelContext camelContext, ApplicationContext applicationContext, ElectionStatus status) throws Exception;
 
