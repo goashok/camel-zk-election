@@ -27,15 +27,18 @@ public class LeaderElector extends LeaderSelectorListenerAdapter implements Clos
     private final LeaderSelector leaderSelector;
     private ElectionHandler handler;
     private boolean isMaster = false;
+    private String id;
     private Listenable<ConnectionStateListener> connListener;
     private static final Logger LOGGER = LoggerFactory.getLogger(LeaderElector.class);
 
-    public LeaderElector(CuratorFramework client, String path, ElectionHandler handler)
+    public LeaderElector(String id, CuratorFramework client, String path, ElectionHandler handler)
     {
+        this.id = id;
         // create a leader selector using the given path for management
         // all participants in a given leader selection must use the same path
         // LeaderElector here is also a LeaderSelectorListener but this isn't required
         leaderSelector = new LeaderSelector(client, path, this);
+        leaderSelector.setId(id);
 
         // for most cases you will want your instance to requeue when it relinquishes leadership
         leaderSelector.autoRequeue();
@@ -61,6 +64,7 @@ public class LeaderElector extends LeaderSelectorListenerAdapter implements Clos
     public void takeLeadership(CuratorFramework client) throws Exception
     {
         try {
+            LOGGER.info("This instance with id {} is now master", id);
             isMaster = true;
             // we are now the leader. This method should not return until we want to relinquish leadership
             handler.handleElection(client);

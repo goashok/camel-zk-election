@@ -12,22 +12,19 @@ import org.springframework.context.ApplicationContextAware;
  */
 public class RouteElectionHandler implements ElectionHandler , CamelContextAware, ApplicationContextAware{
 
-    private String name;
     private Logger LOGGER = LoggerFactory.getLogger(RouteElectionHandler.class);
     private String masterRoute;
     private CamelContext camelContext;
     private ApplicationContext applicationContext;
     private AppElectionSupport appSupport;
 
-    public RouteElectionHandler(String name, String masterRoute, AppElectionSupport appSupport) {
-        this.name = name;
+    public RouteElectionHandler(String masterRoute, AppElectionSupport appSupport) {
         this.masterRoute = masterRoute;
         this.appSupport = appSupport;
     }
 
     @Override
     public void handleElection(CuratorFramework client) throws Exception {
-        LOGGER.info(name + "is now the Master");
 
         synchronized (this) {
             try {
@@ -43,7 +40,7 @@ public class RouteElectionHandler implements ElectionHandler , CamelContextAware
                 LOGGER.warn("Stopping route " + masterRoute);
                 appSupport.onElectionChange(camelContext, applicationContext, ElectionStatus.SLAVE);
                 camelContext.stopRoute(masterRoute);
-                LOGGER.warn(name + " - Relinquishing Master status");
+                LOGGER.warn("Relinquishing Master status");
             }
         }
 
