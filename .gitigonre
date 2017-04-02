@@ -1,7 +1,7 @@
 build/
 gradle
 gradlew
-.idea
-.gradle
+.idea/
+.gradle/
 
 
