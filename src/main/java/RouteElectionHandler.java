@@ -36,8 +36,13 @@ public class RouteElectionHandler implements ElectionHandler , CamelContextAware
                 throw e; //this could be InterruptedException which we dont want to swallow
             }finally {
                 LOGGER.warn("Stopping route " + masterRoute);
-                appSupport.onElectionChange(camelContext, applicationContext, ElectionStatus.SLAVE);
-                camelContext.stopRoute(masterRoute);
+                try {
+                }catch (Exception e) {
+                    LOGGER.error("AppSupport did not handle new status change to SLAVE. Will shutdown route anyways",e);
+                }finally {
+                    camelContext.stopRoute(masterRoute);
+                }
+
                 LOGGER.warn("Relinquishing Master status");
             }
         }
