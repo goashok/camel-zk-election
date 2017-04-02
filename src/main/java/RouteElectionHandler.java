@@ -33,8 +33,6 @@ public class RouteElectionHandler implements ElectionHandler , CamelContextAware
                 this.wait();
             }catch(Exception e) {
                 LOGGER.error("Error handlig election", e);
-                Thread.sleep(15000);  //Avoid race to leader election, We already saw race condition if you relinquish
-                //control and regain control constantly.
                 throw e; //this could be InterruptedException which we dont want to swallow
             }finally {
                 LOGGER.warn("Stopping route " + masterRoute);
