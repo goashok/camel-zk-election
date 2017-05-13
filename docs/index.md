@@ -1,4 +1,4 @@
-# Zookeeper Leader Election Integration with Camel
+# Zookeeper Leader Election Integration With Camel
 
 1. First ordered list item
 2. Another item
