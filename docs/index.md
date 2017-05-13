@@ -17,3 +17,8 @@
 - Or minuses
 + Or pluses
 
+```python
+s = "Python syntax highlighting"
+print s
+```
+
