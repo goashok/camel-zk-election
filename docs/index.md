@@ -1,8 +1,6 @@
 ---
 layout: test
-title: Gingerbread
-recipe-attribution: HungryJenny
-recipe-attribution-link: http://www.opensourcefood.com/people/HungryJenny/recipes/soft-christmas-gingerbread-cookies
+title: Home
 ---
 # Zookeeper Leader Election Integration With Camel 2
 
