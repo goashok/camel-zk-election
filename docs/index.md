@@ -1,9 +1,3 @@
----
-menus:
-  main:
-    url: "/custom-url"
----
-
 # Zookeeper Leader Election Integration with Camel
 
 1. First ordered list item
